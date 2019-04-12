@@ -10,16 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val state = AppState(
-        winHistory = mutableListOf(),
-        gameState = GameState.Playing,
-        player = Player.Naughts,
-        boardState = listOf(
-            mutableListOf(TileState.Empty, TileState.Empty, TileState.Empty),
-            mutableListOf(TileState.Empty, TileState.Empty, TileState.Empty),
-            mutableListOf(TileState.Empty, TileState.Empty, TileState.Empty)
-        )
-    )
+    private val state = AppState()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +26,13 @@ class MainActivity : AppCompatActivity() {
         row3Col2.setOnClickListener { tileClicked(3, 2) }
         row3Col3.setOnClickListener { tileClicked(3, 3) }
 
-        restart.setOnClickListener { newGame() }
+        restart.setOnClickListener { startNewGame() }
 
         invalidate()
     }
 
-    private fun newGame() {
-        state.resetBoard()
+    private fun startNewGame() {
+        state.startNewGame()
         invalidate()
     }
 
@@ -51,16 +42,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun invalidate() {
-        if (state.gameState == GameState.Playing) {
+        if (state.currentlyPlaying) {
             restart.visibility = View.INVISIBLE
-            message.text = when (state.player) {
+            message.text = when (state.currentPlayer) {
                 Player.Naughts -> getString(R.string.naught_turn)
                 Player.Crosses -> getString(R.string.cross_turn)
             }
 
         } else {
             restart.visibility = View.VISIBLE
-            message.text = when (state.winHistory.last()) {
+            message.text = when (state.getLastWinner()) {
                 Player.Naughts -> getString(R.string.naught_win)
                 Player.Crosses -> getString(R.string.cross_win)
                 null -> getString(R.string.draw)
@@ -86,9 +77,9 @@ class MainActivity : AppCompatActivity() {
         tile.addView(imageView)
     }
 
-    private fun getImage(row: Int, col: Int): Drawable? = when (state.boardState[row - 1][col - 1]) {
-        TileState.Empty -> getDrawable(R.color.white)
-        TileState.Naught -> getDrawable(R.drawable.ic_circle)
-        TileState.Cross -> getDrawable(R.drawable.ic_cross)
+    private fun getImage(row: Int, col: Int): Drawable? = when (state.boardState.getPlayerAtPosition(row, col)) {
+        null -> getDrawable(R.color.white)
+        Player.Naughts -> getDrawable(R.drawable.ic_circle)
+        Player.Crosses -> getDrawable(R.drawable.ic_cross)
     }
 }
