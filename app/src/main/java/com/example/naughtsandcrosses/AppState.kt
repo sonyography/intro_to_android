@@ -1,17 +1,22 @@
 package com.example.naughtsandcrosses
 
-data class AppState(
-    private val winHistory: MutableList<Player?> = mutableListOf()
-) {
+class AppState {
+    private val winHistory = mutableListOf<Player?>()
     val boardState = BoardState()
     var currentPlayer = startingPlayer(getLastWinner())
     var currentlyPlaying = true
         private set
 
-    fun getLastWinner() = if (winHistory.any()) winHistory.last() else null
+    fun getLastWinner(): Player? {
+        if (winHistory.any()) {
+            return winHistory.last()
+        } else {
+            return null
+        }
+    }
 
     fun startNewGame() {
-        currentPlayer = startingPlayer(winHistory.last())
+        currentPlayer = startingPlayer(getLastWinner())
         currentlyPlaying = true
         boardState.clearBoard()
     }
@@ -28,11 +33,27 @@ data class AppState(
         if (boardState.playerHasWon(currentPlayer)) {
             currentlyPlaying = false
             winHistory.add(currentPlayer)
-        } else if (boardState.noTilesRemaining) {
+        } else if (boardState.noFreeTiles()) {
             currentlyPlaying = false
             winHistory.add(null)
         }
 
-        currentPlayer = otherPlayer(currentPlayer)
+        currentPlayer = nextPlayer(currentPlayer)
+    }
+
+    private fun nextPlayer(player: Player): Player {
+        if (player == Player.Crosses) {
+            return Player.Naughts
+        } else {
+            return Player.Crosses
+        }
+    }
+
+    private fun startingPlayer(lastWinner: Player?): Player {
+        if (lastWinner == null) {
+            return Player.Naughts
+        } else {
+            return nextPlayer(lastWinner)
+        }
     }
 }

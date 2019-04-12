@@ -7,7 +7,9 @@ class BoardState {
         arrayOf<Player?>(null, null, null)
     )
 
-    fun getPlayerAtPosition(row: Int, col: Int) = boardState[row - 1][col - 1]
+    fun getPlayerAtPosition(row: Int, col: Int): Player? {
+        return boardState[row - 1][col - 1]
+    }
 
     fun setPlayerAtPosition(row: Int, col: Int, player: Player) {
         boardState[row - 1][col - 1] = player
@@ -60,22 +62,21 @@ class BoardState {
     }
 
     fun clearBoard() {
-        for (row in 0..2) {
-            for (col in 0..2) {
-                boardState[row][col] = null
+        for (row in boardState) {
+            for (cellIndex in 0..2) {
+                row[cellIndex] = null
             }
         }
     }
 
-    val noTilesRemaining: Boolean
-        get() {
-            for (row in 0..2) {
-                for (col in 0..2) {
-                    if (boardState[row][col] == null) {
-                        return false
-                    }
+    fun noFreeTiles(): Boolean {
+        for (row in boardState) {
+            for (player in row) {
+                if (player == null) {
+                    return false
                 }
             }
-            return true
         }
+        return true
+    }
 }

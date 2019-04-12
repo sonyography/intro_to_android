@@ -33,53 +33,87 @@ class MainActivity : AppCompatActivity() {
 
     private fun startNewGame() {
         state.startNewGame()
+
         invalidate()
     }
 
     private fun tileClicked(row: Int, col: Int) {
         state.tileClicked(row, col)
+
         invalidate()
     }
 
     private fun invalidate() {
+        setMessage()
+
+        showOrHideStartButton()
+
+        setPlayerImageOnTile(row1Col1, 1, 1)
+        setPlayerImageOnTile(row1Col2, 1, 2)
+        setPlayerImageOnTile(row1Col3, 1, 3)
+        setPlayerImageOnTile(row2Col1, 2, 1)
+        setPlayerImageOnTile(row2Col2, 2, 2)
+        setPlayerImageOnTile(row2Col3, 2, 3)
+        setPlayerImageOnTile(row3Col1, 3, 1)
+        setPlayerImageOnTile(row3Col2, 3, 2)
+        setPlayerImageOnTile(row3Col3, 3, 3)
+    }
+
+    private fun showOrHideStartButton() {
         if (state.currentlyPlaying) {
             restart.visibility = View.INVISIBLE
-            message.text = when (state.currentPlayer) {
-                Player.Naughts -> getString(R.string.naught_turn)
-                Player.Crosses -> getString(R.string.cross_turn)
-            }
-
         } else {
             restart.visibility = View.VISIBLE
-            message.text = when (state.getLastWinner()) {
-                Player.Naughts -> getString(R.string.naught_win)
-                Player.Crosses -> getString(R.string.cross_win)
-                null -> getString(R.string.draw)
-            }
         }
-        setImage(row1Col1, getImage(1, 1))
-        setImage(row1Col2, getImage(1, 2))
-        setImage(row1Col3, getImage(1, 3))
-        setImage(row2Col1, getImage(2, 1))
-        setImage(row2Col2, getImage(2, 2))
-        setImage(row2Col3, getImage(2, 3))
-        setImage(row3Col1, getImage(3, 1))
-        setImage(row3Col2, getImage(3, 2))
-        setImage(row3Col3, getImage(3, 3))
     }
 
-    private fun setImage(tile: CardView, image: Drawable?) {
+    private fun setMessage() {
+        if (state.currentlyPlaying) {
+            message.text = getCurrentPlayerMessage()
+        } else {
+            message.text = getWinnerText()
+        }
+    }
+
+    private fun getCurrentPlayerMessage(): String {
+        if (state.currentPlayer == Player.Naughts) {
+            return getString(R.string.naught_turn)
+        } else {
+            return getString(R.string.cross_turn)
+        }
+    }
+
+    private fun getWinnerText(): String {
+        if (state.getLastWinner() == Player.Naughts) {
+            return getString(R.string.naught_win)
+        } else if (state.getLastWinner() == Player.Crosses) {
+            return getString(R.string.cross_win)
+        } else {
+            return getString(R.string.draw)
+        }
+    }
+
+    private fun setPlayerImageOnTile(tile: CardView, row: Int, col: Int) {
         tile.removeAllViews()
-        val imageView = ImageView(this).apply {
-            setImageDrawable(image)
-            setPadding(15, 15, 15, 15)
-        }
-        tile.addView(imageView)
+
+        val newImage = ImageView(this)
+
+        val imageToUse = getPlayerImageForTile(row, col)
+        newImage.setImageDrawable(imageToUse)
+
+        newImage.setPadding(15, 15, 15, 15)
+
+        tile.addView(newImage)
     }
 
-    private fun getImage(row: Int, col: Int): Drawable? = when (state.boardState.getPlayerAtPosition(row, col)) {
-        null -> getDrawable(R.color.white)
-        Player.Naughts -> getDrawable(R.drawable.ic_circle)
-        Player.Crosses -> getDrawable(R.drawable.ic_cross)
+    private fun getPlayerImageForTile(row: Int, col: Int): Drawable? {
+        val player = state.boardState.getPlayerAtPosition(row, col)
+        if (player == Player.Naughts) {
+            return getDrawable(R.drawable.ic_circle)
+        } else if (player == Player.Crosses) {
+            return getDrawable(R.drawable.ic_cross)
+        } else {
+            return getDrawable(R.color.white)
+        }
     }
 }
