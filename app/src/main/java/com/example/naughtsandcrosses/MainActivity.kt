@@ -83,9 +83,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getWinnerText(): String {
-        if (state.getLastWinner() == Player.Naughts) {
+        if (state.lastWinner == Player.Naughts) {
             return getString(R.string.naught_win)
-        } else if (state.getLastWinner() == Player.Crosses) {
+        } else if (state.lastWinner == Player.Crosses) {
             return getString(R.string.cross_win)
         } else {
             return getString(R.string.draw)
