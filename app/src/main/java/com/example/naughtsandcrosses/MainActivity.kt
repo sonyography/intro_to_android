@@ -3,7 +3,6 @@ package com.example.naughtsandcrosses
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,15 +47,15 @@ class MainActivity : AppCompatActivity() {
 
         showOrHideStartButton()
 
-        setPlayerImageOnTile(row1Col1, 1, 1)
-        setPlayerImageOnTile(row1Col2, 1, 2)
-        setPlayerImageOnTile(row1Col3, 1, 3)
-        setPlayerImageOnTile(row2Col1, 2, 1)
-        setPlayerImageOnTile(row2Col2, 2, 2)
-        setPlayerImageOnTile(row2Col3, 2, 3)
-        setPlayerImageOnTile(row3Col1, 3, 1)
-        setPlayerImageOnTile(row3Col2, 3, 2)
-        setPlayerImageOnTile(row3Col3, 3, 3)
+        setTileImage(row1Col1, 1, 1)
+        setTileImage(row1Col2, 1, 2)
+        setTileImage(row1Col3, 1, 3)
+        setTileImage(row2Col1, 2, 1)
+        setTileImage(row2Col2, 2, 2)
+        setTileImage(row2Col3, 2, 3)
+        setTileImage(row3Col1, 3, 1)
+        setTileImage(row3Col2, 3, 2)
+        setTileImage(row3Col3, 3, 3)
     }
 
     private fun showOrHideStartButton() {
@@ -93,17 +92,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setPlayerImageOnTile(tile: CardView, row: Int, col: Int) {
-        tile.removeAllViews()
-
-        val newImage = ImageView(this)
-
+    private fun setTileImage(tile: ImageView, row: Int, col: Int) {
         val imageToUse = getPlayerImageForTile(row, col)
-        newImage.setImageDrawable(imageToUse)
 
-        newImage.setPadding(15, 15, 15, 15)
-
-        tile.addView(newImage)
+        tile.setImageDrawable(imageToUse)
     }
 
     private fun getPlayerImageForTile(row: Int, col: Int): Drawable? {
