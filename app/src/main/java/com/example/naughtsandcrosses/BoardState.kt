@@ -1,6 +1,7 @@
 package com.example.naughtsandcrosses
 
 class BoardState {
+    // We represent the board as a 2-dimensional array of Players
     private val boardState = arrayOf(
         arrayOf<Player?>(null, null, null),
         arrayOf<Player?>(null, null, null),
@@ -8,10 +9,12 @@ class BoardState {
     )
 
     fun getPlayerAtPosition(row: Int, col: Int): Player? {
+        // We subtract 1 on each, because array indexes start at 0, not 1
         return boardState[row - 1][col - 1]
     }
 
     fun setPlayerAtPosition(row: Int, col: Int, player: Player) {
+        // We subtract 1 on each, because array indexes start at 0, not 1
         boardState[row - 1][col - 1] = player
     }
 
@@ -62,6 +65,7 @@ class BoardState {
     }
 
     fun clearBoard() {
+        // We loop over all tiles to set the value to empty
         for (row in boardState) {
             for (cellIndex in 0..2) {
                 row[cellIndex] = null
@@ -70,6 +74,7 @@ class BoardState {
     }
 
     fun noFreeTiles(): Boolean {
+        // We loop over all tiles to see if unclaimed
         for (row in boardState) {
             for (player in row) {
                 if (player == null) {

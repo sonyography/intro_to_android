@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Call the tileClicked method when a user taps a tile
         row1Col1.setOnClickListener { tileClicked(1, 1) }
         row1Col2.setOnClickListener { tileClicked(1, 2) }
         row1Col3.setOnClickListener { tileClicked(1, 3) }
@@ -42,11 +43,14 @@ class MainActivity : AppCompatActivity() {
         invalidate()
     }
 
+    // This method updates the UI.
+    // This should be the only place that we do this, and it should update based on the AppState
     private fun invalidate() {
         setMessage()
 
         showOrHideStartButton()
 
+        // Update each tile's image
         setTileImage(row1Col1, 1, 1)
         setTileImage(row1Col2, 1, 2)
         setTileImage(row1Col3, 1, 3)
