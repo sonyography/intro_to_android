@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">Naughts And Crosses</string>
     <string name="restart">Restart</string>
-    <string name="codeup_leeds_logo">CodeUp Leeds Logo</string>
-    <string name="naught_turn">O\'s turn,\ntap a square to play</string>
-    <string name="cross_turn">X\'s turn,\ntap a square to play</string>
-    <string name="naught_win">O\'s win.\nClick restart to play again</string>
     <string name="cross_win">X\'s win.\nClick restart to play again</string>
-    <string name="draw">Draw.\nClick restart to play again</string>
 </resources>

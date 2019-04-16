@@ -19,9 +19,8 @@ class BoardState {
     }
 
     fun playerHasWon(player: Player): Boolean {
-        return winningHorizontally(player)
-                || winningVertically(player)
-                || winningDiagonally(player)
+        return winningHorizontally(player) || winningVertically(player)
+        // But what about diagonally!
     }
 
     private fun winningHorizontally(player: Player): Boolean {
@@ -44,22 +43,6 @@ class BoardState {
             ) {
                 return true
             }
-        }
-        return false
-    }
-
-    private fun winningDiagonally(player: Player): Boolean {
-        if (boardState[0][0] == player &&
-            boardState[1][1] == player &&
-            boardState[2][2] == player
-        ) {
-            return true
-        }
-        if (boardState[0][2] == player &&
-            boardState[1][1] == player &&
-            boardState[2][0] == player
-        ) {
-            return true
         }
         return false
     }

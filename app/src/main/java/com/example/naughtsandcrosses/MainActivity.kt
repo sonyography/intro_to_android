@@ -63,37 +63,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showOrHideStartButton() {
-        if (state.currentlyPlaying) {
-            restart.visibility = View.INVISIBLE
-        } else {
-            restart.visibility = View.VISIBLE
-        }
+        // We could hide this if the game is complete
+        restart.visibility = View.VISIBLE
     }
 
     private fun setMessage() {
-        if (state.currentlyPlaying) {
-            message.text = getCurrentPlayerMessage()
-        } else {
-            message.text = getWinnerText()
-        }
-    }
-
-    private fun getCurrentPlayerMessage(): String {
-        if (state.currentPlayer == Player.Naughts) {
-            return getString(R.string.naught_turn)
-        } else {
-            return getString(R.string.cross_turn)
-        }
-    }
-
-    private fun getWinnerText(): String {
-        if (state.lastWinner == Player.Naughts) {
-            return getString(R.string.naught_win)
-        } else if (state.lastWinner == Player.Crosses) {
-            return getString(R.string.cross_win)
-        } else {
-            return getString(R.string.draw)
-        }
+        // Update the message to the player
+        message.text = "Hello, Player!"
     }
 
     private fun setTileImage(tile: ImageView, row: Int, col: Int) {

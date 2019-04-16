@@ -13,7 +13,7 @@ class AppState {
         private set
 
     fun startNewGame() {
-        currentPlayer = startingPlayer()
+        // The next player should not be the last winner
         currentlyPlaying = true
         boardState.clearBoard()
     }
@@ -41,25 +41,11 @@ class AppState {
             lastWinner = null
         }
 
-        currentPlayer = nextPlayer(currentPlayer)
+        currentPlayer = nextPlayer()
     }
 
-    private fun nextPlayer(player: Player): Player {
-        // Here we swap the current player
-        if (player == Player.Crosses) {
-            return Player.Naughts
-        } else {
-            return Player.Crosses
-        }
-    }
-
-    private fun startingPlayer(): Player {
-        // Here we choose a starting player based on the last winner, the previous winner goes second
-        val last = lastWinner
-        if (last == null) {
-            return nextPlayer(currentPlayer)
-        } else {
-            return nextPlayer(last)
-        }
+    private fun nextPlayer(): Player {
+        // Write code to switch to the next player
+        return currentPlayer
     }
 }
