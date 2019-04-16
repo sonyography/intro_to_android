@@ -11,35 +11,31 @@
             android:layout_width="200dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/code_up_leeds"
-            android:id="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/codeUpLogo"
+            android:contentDescription="@string/codeup_leeds_logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/title"
-            android:contentDescription="@string/codeup_leeds_logo"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
             android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@+id/codeUpLogo"
+            app:layout_constraintBottom_toTopOf="@+id/gameBoard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            android:textSize="24sp"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
     <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="350dp"
             android:layout_height="350dp"
-            tools:context=".MainActivity"
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/gameBoard"
+            android:background="@color/gameBoardBackground"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintBottom_toTopOf="@+id/message"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/constraintLayout"
-            android:background="@color/gameBoardBackground">
+            app:layout_constraintStart_toStartOf="parent">
         <ImageView
                 android:id="@+id/row1Col1"
                 android:layout_width="100dp"
@@ -135,20 +131,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/message"
-            tools:text="X's win.\nClick restart to play again"
+            tools:text="@string/cross_win"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/gameBoard"
             app:layout_constraintBottom_toTopOf="@+id/restart"
-            android:textSize="20sp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <Button
             android:text="@string/restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restart"
             app:layout_constraintTop_toBottomOf="@+id/message"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 </android.support.constraint.ConstraintLayout>
