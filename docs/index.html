@@ -39,10 +39,6 @@
                     <li>Emulator/Android phone with usb cable</li>
                 </ul>
             </section>
-            <section>
-                <h3>Setting up the emulator</h3>
-                <p>TODO</p>
-            </section>
         </section>
         <section>
             <section>
@@ -93,10 +89,12 @@
                 <h3>Our first app</h3>
                 <img src="img/appFiles.png" width="400px"/>
             </section>
-            <section>
-                <h3>Manifest</h3>
-                <pre data-trim>
-                    <code data-line-numbers="3-8"><manifest>
+            <section data-markdown>
+             <textarea data-template>
+                 ### Manifest
+
+                 ```xml
+<manifest>
   <application>
     <activity android:name=".MainActivity">
       <intent-filter>
@@ -106,11 +104,14 @@
     </activity>
   </application>
 </manifest>
-                    </code>
-                </pre>
-                <p>You shouldn't need to make changes here today</p>
-                <p>Here we list all of the Activities of our app</p>
-                <p>We only have one, and it run from the launcher</p>
+                 ```
+
+                 You shouldn't need to make changes here today
+
+                 Here we list all of the Activities of our app
+
+                 We only have one, and it run from the launcher
+              </textarea>
             </section>
             <section>
                 <h3>Main Activity</h3>
@@ -149,13 +150,169 @@
             </section>
         </section>
         <section>
+            <section data-markdown>
+             <textarea data-template>
+                 ### Demo - Updating layout
 
+                 First, we will need some colour resources. Overwrite the `colours.xml` file in the `values` resources folder with the following code:
+
+                 ```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#61C6F4</color>
+    <color name="colorPrimaryDark">#34A5DA</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="appBackground">#E1FFFF</color>
+    <color name="infinityWorksOrange">#E35205</color>
+    <color name="northCodersRed">#BA1F31</color>
+    <color name="white">#FFFFFF</color>
+</resources>
+                 ```
+              </textarea>
+            </section>
+            <section data-markdown>
+             <textarea data-template>
+                In the interest of time, the following layout will be created in a quick demo
+                After, copy and paste the code into the text tab of the layout, then switch back to the design tab
+                ```xml
+                 <?xml version="1.0" encoding="utf-8"?>
+                 <android.support.constraint.ConstraintLayout
+                         xmlns:android="http://schemas.android.com/apk/res/android"
+                         xmlns:tools="http://schemas.android.com/tools"
+                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         tools:context=".MainActivity"
+                         android:background="@color/appBackground">
+<android.support.constraint.ConstraintLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:id="@+id/gameBoard"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+                android:id="@+id/row1Col1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/row2Col1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/row1Col2"/>
+        <ImageView
+                android:id="@+id/row1Col2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/row2Col2"
+                app:layout_constraintStart_toEndOf="@+id/row1Col1"
+                app:layout_constraintEnd_toStartOf="@+id/row1Col3"/>
+        <ImageView
+                android:id="@+id/row1Col3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/row2Col3"
+                app:layout_constraintStart_toEndOf="@+id/row1Col2"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+                android:id="@+id/row2Col1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row1Col1"
+                app:layout_constraintBottom_toTopOf="@+id/row3Col1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/row2Col2"/>
+        <ImageView
+                android:id="@+id/row2Col2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row1Col2"
+                app:layout_constraintBottom_toTopOf="@+id/row3Col2"
+                app:layout_constraintStart_toEndOf="@+id/row2Col1"
+                app:layout_constraintEnd_toStartOf="@+id/row2Col3"/>
+        <ImageView
+                android:id="@+id/row2Col3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row1Col3"
+                app:layout_constraintBottom_toTopOf="@+id/row3Col3"
+                app:layout_constraintStart_toEndOf="@+id/row2Col2"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+                android:id="@+id/row3Col1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row2Col1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/row3Col2"/>
+        <ImageView
+                android:id="@+id/row3Col2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row2Col2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/row3Col1"
+                app:layout_constraintEnd_toStartOf="@+id/row3Col3"/>
+        <ImageView
+                android:id="@+id/row3Col3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/row2Col3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/row3Col2"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message"
+            tools:text="X\'s win.\nHave a nice day"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/gameBoard"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+</android.support.constraint.ConstraintLayout>
+                ```
+              </textarea>
+            </section>
+            <section>
+                <p>Now let's try and add a logo to our layout</p>
+                <img src="img/code_up_leeds.png"/>
+                <p>Save the image, and drag it into the <code>drawable</code> resource folder</p>
+            </section>
+            <section>
+                <p>Try adding an <code>ImageView</code> to the layout above the grid. You may need to play with the editor a bit to get things looking nice</p>
+            </section>
         </section>
     </div>
 </div>
 
 <script src="js/reveal.js"></script>
-
+code
 <script>
     // More info about config & dependencies:
     // - https://github.com/hakimel/reveal.js#configuration
