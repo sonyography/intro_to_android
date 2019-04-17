@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">Naughts And Crosses</string>
-    <string name="restart">Restart</string>
-    <string name="cross_win">X\'s win.\nClick restart to play again</string>
 </resources>
