@@ -3,7 +3,6 @@ package com.example.naughtsandcrosses
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,14 +25,6 @@ class MainActivity : AppCompatActivity() {
         row3Col2.setOnClickListener { tileClicked(3, 2) }
         row3Col3.setOnClickListener { tileClicked(3, 3) }
 
-        restart.setOnClickListener { startNewGame() }
-
-        invalidate()
-    }
-
-    private fun startNewGame() {
-        state.startNewGame()
-
         invalidate()
     }
 
@@ -48,8 +39,6 @@ class MainActivity : AppCompatActivity() {
     private fun invalidate() {
         setMessage()
 
-        showOrHideStartButton()
-
         // Update each tile's image
         setTileImage(row1Col1, 1, 1)
         setTileImage(row1Col2, 1, 2)
@@ -60,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         setTileImage(row3Col1, 3, 1)
         setTileImage(row3Col2, 3, 2)
         setTileImage(row3Col3, 3, 3)
-    }
-
-    private fun showOrHideStartButton() {
-        // We could hide this if the game is complete
-        restart.visibility = View.VISIBLE
     }
 
     private fun setMessage() {

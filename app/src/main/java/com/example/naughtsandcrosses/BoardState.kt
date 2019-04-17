@@ -47,15 +47,6 @@ class BoardState {
         return false
     }
 
-    fun clearBoard() {
-        // We loop over all tiles to set the value to empty
-        for (row in boardState) {
-            for (cellIndex in 0..2) {
-                row[cellIndex] = null
-            }
-        }
-    }
-
     fun noFreeTiles(): Boolean {
         // We loop over all tiles to see if unclaimed
         for (row in boardState) {

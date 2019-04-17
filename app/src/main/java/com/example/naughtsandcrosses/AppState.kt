@@ -12,12 +12,6 @@ class AppState {
     var currentlyPlaying = true
         private set
 
-    fun startNewGame() {
-        // The next player should not be the last winner
-        currentlyPlaying = true
-        boardState.clearBoard()
-    }
-
     fun tileClicked(row: Int, col: Int) {
         // If we aren't playing right now, do nothing
         if (!currentlyPlaying) {
@@ -32,7 +26,7 @@ class AppState {
 
         // Now that we have updated the board we can query it's current state
         if (boardState.playerHasWon(currentPlayer)) {
-            // If the current player has won, we can stop playing, and set the curent player as the last winner
+            // If the current player has won, we can stop playing, and set the current player as the last winner
             currentlyPlaying = false
             lastWinner = currentPlayer
         } else if (boardState.noFreeTiles()) {
