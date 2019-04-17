@@ -21,11 +21,6 @@
         link.type = 'text/css';
         link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
-
-
-
-
-
     </script>
 </head>
 <body>
@@ -68,7 +63,7 @@
             <section>
                 <h3>Activities</h3>
                 <p>These are the main entry points for your app</p>
-                <p>No 'main' function, the OS creates an instance of your activity</p>
+                <p>No <code>main</code> function, the OS creates an instance of your activity</p>
                 <p>You can use multiple activities to represent screens of the app, or just swap out the content</p>
                 <p>One activity (often MainActivity) is registered to start when you launch the app</p>
             </section>
@@ -100,11 +95,61 @@
             </section>
             <section>
                 <h3>Manifest</h3>
-                <img src="img/manifest.png" width="500px"/>
+                <pre data-trim>
+                    <code data-line-numbers="3-8"><manifest>
+  <application>
+    <activity android:name=".MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>
+                    </code>
+                </pre>
                 <p>You shouldn't need to make changes here today</p>
                 <p>Here we list all of the Activities of our app</p>
-                <p>We only have one, and it is set to launch as the Main activity from the launcher</p>
+                <p>We only have one, and it run from the launcher</p>
             </section>
+            <section>
+                <h3>Main Activity</h3>
+                <pre data-trim>
+                    <code data-line-numbers="2,6">class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+    }
+}
+                    </code>
+                </pre>
+                <p>The OS will call method in our Activity at certain points</p>
+                <p>The <code>onCreate</code> method gets called when the Activity is created</p>
+            </section>
+            <section>
+                <h3>Lifecycle methods - <a href="https://developer.android.com/reference/android/app/Activity#ActivityLifecycle">Reference</a></h3>
+                <img src="img/activity_lifecycle.png" width="270px" style="background:white;">
+                <p>There are more lifecycle hooks we can use. We won't worry about that today</p>
+            </section>
+            <section>
+                <h3>Layouts</h3>
+                <pre data-trim>
+                    <code data-line-numbers="5">class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+    }
+}
+                    </code>
+                </pre>
+                <p>We use the <code>setContentView</code> method to tell the OS that it should use the <code>activity_main.xml</code> layout</pre>
+                <p>The OS will then create views with default values as defined in that file</p>
+            </section>
+        </section>
+        <section>
+
         </section>
     </div>
 </div>
@@ -123,11 +168,6 @@
             { src: 'plugin/highlight/highlight.js', async: true }
         ]
     });
-
-
-
-
-
 </script>
 </body>
 </html>
