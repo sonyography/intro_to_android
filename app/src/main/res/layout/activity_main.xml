@@ -11,7 +11,7 @@
             android:layout_width="350dp"
             android:layout_height="350dp"
             android:id="@+id/gameBoard"
-            android:background="@color/gameBoardBackground"
+            android:background="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/message"
             app:layout_constraintEnd_toEndOf="parent"
