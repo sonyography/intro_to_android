@@ -344,6 +344,225 @@
                     ```
                 </textarea>
             </section>
+            <section data-markdown>
+                <textarea data-template>
+                    `MainActivity.kt`
+
+                    ```kotlin
+package com.example.naughtsandcrosses
+
+import android.graphics.drawable.Drawable
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ImageView
+import kotlinx.android.synthetic.main.activity_main.*
+
+class MainActivity : AppCompatActivity() {
+
+    private val state = AppState()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Call the tileClicked method when a user taps a tile
+        row1Col1.setOnClickListener { tileClicked(1, 1) }
+        row1Col2.setOnClickListener { tileClicked(1, 2) }
+        row1Col3.setOnClickListener { tileClicked(1, 3) }
+        row2Col1.setOnClickListener { tileClicked(2, 1) }
+        row2Col2.setOnClickListener { tileClicked(2, 2) }
+        row2Col3.setOnClickListener { tileClicked(2, 3) }
+        row3Col1.setOnClickListener { tileClicked(3, 1) }
+        row3Col2.setOnClickListener { tileClicked(3, 2) }
+        row3Col3.setOnClickListener { tileClicked(3, 3) }
+
+        invalidate()
+    }
+
+    private fun tileClicked(row: Int, col: Int) {
+        state.tileClicked(row, col)
+
+        invalidate()
+    }
+
+    // This method updates the UI.
+    // This should be the only place that we do this, and it should update based on the AppState
+    private fun invalidate() {
+        setMessage()
+
+        // Update each tile's image
+        setTileImage(row1Col1, 1, 1)
+        setTileImage(row1Col2, 1, 2)
+        setTileImage(row1Col3, 1, 3)
+        setTileImage(row2Col1, 2, 1)
+        setTileImage(row2Col2, 2, 2)
+        setTileImage(row2Col3, 2, 3)
+        setTileImage(row3Col1, 3, 1)
+        setTileImage(row3Col2, 3, 2)
+        setTileImage(row3Col3, 3, 3)
+    }
+
+    private fun setMessage() {
+        // Update the message to the player
+        message.text = "Hello, Player!"
+    }
+
+    private fun setTileImage(tile: ImageView, row: Int, col: Int) {
+        val imageToUse = getPlayerImageForTile(row, col)
+
+        tile.setImageDrawable(imageToUse)
+    }
+
+    private fun getPlayerImageForTile(row: Int, col: Int): Drawable? {
+        val player = state.boardState.getPlayerAtPosition(row, col)
+        if (player == Player.Naughts) {
+            return getDrawable(R.drawable.ic_circle)
+        } else if (player == Player.Crosses) {
+            return getDrawable(R.drawable.ic_cross)
+        } else {
+            return getDrawable(R.color.white)
+        }
+    }
+}
+                    ```
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    `Player.kt`
+
+                    ```kotlin
+package com.example.naughtsandcrosses
+
+enum class Player {
+    Naughts,
+    Crosses
+}
+                    ```
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    `AppState.kt`
+
+                    ```kotlin
+package com.example.naughtsandcrosses
+
+class AppState {
+    val boardState = BoardState()
+
+    var lastWinner: Player? = null
+        private set
+
+    var currentPlayer = Player.Naughts
+        private set
+
+    var currentlyPlaying = true
+        private set
+
+    fun tileClicked(row: Int, col: Int) {
+        // If we aren't playing right now, do nothing
+        if (!currentlyPlaying) {
+            return
+        }
+        // If a player has already claimed this tile, do nothing
+        if (boardState.getPlayerAtPosition(row, col) != null) {
+            return
+        }
+        // Otherwise, the current player can claim this tile
+        boardState.setPlayerAtPosition(row, col, currentPlayer)
+
+        // Now that we have updated the board we can query it's current state
+        if (boardState.playerHasWon(currentPlayer)) {
+            // If the current player has won, we can stop playing, and set the current player as the last winner
+            currentlyPlaying = false
+            lastWinner = currentPlayer
+        } else if (boardState.noFreeTiles()) {
+            // Otherwise, if there are no tiles left to claim, it is a draw
+            currentlyPlaying = false
+            lastWinner = null
+        }
+
+        currentPlayer = nextPlayer()
+    }
+
+    private fun nextPlayer(): Player {
+        // Write code to switch to the next player
+        return currentPlayer
+    }
+}
+                    ```
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    `BoardState.kt`
+
+                    ```kotlin
+package com.example.naughtsandcrosses
+
+class BoardState {
+    // We represent the board as a 2-dimensional array of Players
+    private val boardState = arrayOf(
+        arrayOf<Player?>(null, null, null),
+        arrayOf<Player?>(null, null, null),
+        arrayOf<Player?>(null, null, null)
+    )
+
+    fun getPlayerAtPosition(row: Int, col: Int): Player? {
+        // We subtract 1 on each, because array indexes start at 0, not 1
+        return boardState[row - 1][col - 1]
+    }
+
+    fun setPlayerAtPosition(row: Int, col: Int, player: Player) {
+        // We subtract 1 on each, because array indexes start at 0, not 1
+        boardState[row - 1][col - 1] = player
+    }
+
+    fun playerHasWon(player: Player): Boolean {
+        return winningHorizontally(player) || winningVertically(player)
+        // But what about diagonally!
+    }
+
+    private fun winningHorizontally(player: Player): Boolean {
+        for (num in 0..2) {
+            if (boardState[num][0] == player &&
+                boardState[num][1] == player &&
+                boardState[num][2] == player
+            ) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun winningVertically(player: Player): Boolean {
+        for (num in 0..2) {
+            if (boardState[0][num] == player &&
+                boardState[1][num] == player &&
+                boardState[2][num] == player
+            ) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun noFreeTiles(): Boolean {
+        // We loop over all tiles to see if unclaimed
+        for (row in boardState) {
+            for (player in row) {
+                if (player == null) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+}
+                    ```
+                </textarea>
+            </section>
         </section>
     </div>
 </div>
